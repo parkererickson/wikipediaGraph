@@ -1,0 +1,5 @@
+CREATE QUERY getArticles(VERTEX vid) FOR GRAPH MyGraph { 
+	start = {vid};
+  result = SELECT all FROM start-()->Article:all;
+	PRINT result;
+}
