@@ -1,4 +1,5 @@
-CREATE QUERY getKeywords(VERTEX vid) FOR GRAPH MyGraph { 
+USE GRAPH @graphname@
+CREATE QUERY getKeywords(VERTEX vid) FOR GRAPH @graphname@ { 
 	start = {vid};
   result = SELECT all FROM start-()->Keyword:all;
 	PRINT result;

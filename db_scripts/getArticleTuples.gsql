@@ -1,0 +1,17 @@
+USE GRAPH @graphname@
+
+CREATE QUERY tupleArticle(/* Parameters here */) FOR GRAPH @graphname@ { 
+
+  TYPEDEF TUPLE <STRING article1, STRING relation, STRING article2> TUPLE_RECORD;
+  ListAccum<TUPLE_RECORD> @@tupleRecords;
+
+  INIT = {Article.*};
+
+  # Note that the tuple gathers info from both edges and vertices.
+  S1 =  SELECT t
+        FROM INIT:s -(LINKED_TO:e)->:t
+        ACCUM @@tupleRecords += TUPLE_RECORD(s.topic, e.edgeType, t.topic);
+
+  PRINT count(@@tupleRecords), @@tupleRecords As list_of_article_tuples;
+
+}
