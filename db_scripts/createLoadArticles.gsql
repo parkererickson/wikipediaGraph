@@ -1,0 +1,7 @@
+USE GRAPH @graphname@
+
+CREATE LOADING JOB loadArticles FOR GRAPH WikipediaGraph {
+      DEFINE FILENAME f;
+      LOAD f TO VERTEX Article VALUES($0) USING SEPARATOR=",", HEADER="false", EOL="\n";
+      LOAD f TO EDGE LINKED_TO VALUES($0, $1) USING SEPARATOR=",", HEADER="false", EOL="\n";
+    }

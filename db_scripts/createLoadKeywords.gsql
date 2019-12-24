@@ -1,0 +1,7 @@
+USE GRAPH @graphname@
+
+CREATE LOADING JOB loadKeywords FOR GRAPH @graphname@ {
+      DEFINE FILENAME f;
+      LOAD f TO VERTEX Keyword VALUES($1) USING SEPARATOR=",", HEADER="true", EOL="\n";
+      LOAD f TO EDGE HAS VALUES($0, $1) USING SEPARATOR=",", HEADER="true", EOL="\n";
+    }

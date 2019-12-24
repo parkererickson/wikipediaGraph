@@ -21,6 +21,7 @@ val tokenMap: LinkedHashMap<String, String> =
 
 val grpSchema: String = "Tigergraph Schema"
 val grpQueries: String = "Tigergraph Queries"
+val grpLoad: String = "Tigergraph Loading"
 
 tigergraph { // <3>
     scriptDir.set(file("db_scripts"))
@@ -34,6 +35,19 @@ tigergraph { // <3>
 }
 
 tasks {
+    val createSchema by registering(GsqlTask::class) {
+        group = grpSchema
+        description = "Create the schema on the database"
+        dependsOn("dropAll")
+        scriptPath = "createSchema.gsql"
+        superUser = true 
+    }
+    val dropAll by registering(GsqlTask::class) {
+        group = grpSchema
+        description = "Drops the schema on the database"
+        scriptPath = "drop.gsql"
+        superUser = true
+    }
     val createArticleTuple by registering(GsqlTask::class){
         group = grpQueries
         description = "Creates the articleTuple query"
@@ -72,5 +86,39 @@ tasks {
         dependsOn("createGetKeywords")
         scriptPath = "installGetKeywords.gsql"
         superUser = true
+    }
+    val createLoadArticles by registering(GsqlTask::class){
+        group = grpLoad
+        description = "Creates the loading job loadArticles"
+        scriptPath = "createLoadArticles.gsql"
+        superUser = true
+    }
+    val loadArticles by registering(GsqlTask::class){
+        group = grpLoad
+        description = "Runs the loading job loadArticles"
+        //dependsOn("createLoadArticles")
+        scriptPath = "loadArticles.gsql"
+        superUser = true
+    }
+    val createLoadKeywords by registering(GsqlTask::class){
+        group = grpLoad
+        description = "Creates the loading job loadKeywords"
+        scriptPath = "createLoadKeywords.gsql"
+        superUser = true
+    }
+    val loadKeywords by registering(GsqlTask::class){
+        group = grpLoad
+        description = "Runs the loading job loadArticles"
+        dependsOn("createLoadKeywords")
+        scriptPath = "loadKeywords.gsql"
+        superUser = true
+    }
+    val createEverything by registering(GsqlTask::class){
+        group = grpLoad
+        description = "Creates schema, loads data, and installs all queries"
+        dependsOn("createSchema")
+        dependsOn("loadArticles")
+        dependsOn("loadKeywords")
+        dependsOn("")
     }
 }

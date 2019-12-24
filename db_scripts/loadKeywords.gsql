@@ -1,0 +1,3 @@
+USE GRAPH @graphname@
+
+RUN LOADING JOB loadKeywords USING f="~/tigergraph/loadingData/keywords.csv"

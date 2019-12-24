@@ -1,0 +1,7 @@
+USE GRAPH @graphname@
+
+DROP GRAPH @graphname@
+
+USE GLOBAL
+
+DROP ALL
