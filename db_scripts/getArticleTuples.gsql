@@ -10,7 +10,7 @@ CREATE QUERY tupleArticle(/* Parameters here */) FOR GRAPH @graphname@ {
   # Note that the tuple gathers info from both edges and vertices.
   S1 =  SELECT t
         FROM INIT:s -(LINKED_TO:e)->:t
-        ACCUM @@tupleRecords += TUPLE_RECORD(s.topic, e.edgeType, t.topic);
+        ACCUM @@tupleRecords += TUPLE_RECORD(s.topic, "LINKED_TO", t.topic);
 
   PRINT count(@@tupleRecords), @@tupleRecords As list_of_article_tuples;
 

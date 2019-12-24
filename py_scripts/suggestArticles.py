@@ -5,14 +5,15 @@ import torch
 from gcn import GCN
 import torch.nn as nn
 import torch.nn.functional as F
+import cfg
 
-numEpochs = 30
+numEpochs = 10
 
 wantedTopic = "Saxophone"
 
-unwantedTopic = "Falkland_Islands" #In future, determine automatically through PageRank/other centrality algo
+unwantedTopic = "Falkland_Islands" #In future, determine automatically through the inverse of PageRank/other centrality algo
 
-graph = tg.TigerGraphConnection(ipAddress="https://wikipediagraph.i.tgcloud.us", apiToken="reko7isjrp6hifchcis87oltea9s7jtk") # connection to graph
+graph = tg.TigerGraphConnection(ipAddress="https://wikipediagraph.i.tgcloud.us", apiToken=cfg.token, graphname="WikipediaGraph") # connection to graph
 
 articleToNum = {} # translation dictionary for article name to number (for dgl)
 numToArticle = {} # translation dictionary for number to article name
@@ -58,7 +59,7 @@ print(G.nodes[2].data['feat'])
 # The first layer transforms input features of size of 34 to a hidden size of 5.
 # The second layer transforms the hidden layer and produces output features of
 # size 2, corresponding to the two groups of the karate club.
-net = GCN(G.number_of_nodes(), 10, 2)
+net = GCN(G.number_of_nodes(), 30, 2)
 
 inputs = torch.eye(G.number_of_nodes())
 labeled_nodes = torch.tensor([wantedNum, unwantedNum])  # only the instructor and the president nodes are labeled
@@ -86,16 +87,15 @@ predictions = list(all_logits[numEpochs-1])
 predictionsWithIndex = []
 a = 0
 for article in predictions:
-    predictionsWithIndex.append([a, article[0] - article[1]])
+    predictionsWithIndex.append([a, article[0]]) #article[0] - article[1]
     a+=1
 
 predictionsWithIndex.sort(key=lambda x: x[1], reverse=True)
 
-topFive = predictionsWithIndex[:5]
+topResults = predictionsWithIndex[:10]
 
-print(topFive)
 
-for article in topFive:
+for article in topResults:
     print("Article Id: "+str(article[0]))
     print("Article Name: "+str(numToArticle[article[0]]))
     print("Article Score: "+str(article[1]))

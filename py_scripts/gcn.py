@@ -45,3 +45,18 @@ class GCN(nn.Module):
         h = torch.relu(h)
         h = self.gcn2(g, h)
         return h
+
+class threeLayerGCN(nn.Module):
+    def __init__(self, in_feats, hidden_size1, hidden_size2, num_classes):
+        super(threeLayerGCN, self).__init__()
+        self.gcn1 = GCNLayer(in_feats, hidden_size1)
+        self.gcn2 = GCNLayer(hidden_size1, hidden_size2)
+        self.gcn3 = GCNLayer(hidden_size2, num_classes)
+
+    def forward(self, g, inputs):
+        h = self.gcn1(g, inputs)
+        h = torch.relu(h)
+        h = self.gcn2(g, h)
+        h = torch.relu(h)
+        h = self.gcn3(g, h)
+        return h

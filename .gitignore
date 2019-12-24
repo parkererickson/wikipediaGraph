@@ -1,0 +1,9 @@
+gradle-local.properties
+plaintext_articles/
+cert.txt
+.gradle
+.vscode
+py_scripts/getDataDemo.py
+py_scripts/__pycache__/
+build/
+py_scripts/cfg.py

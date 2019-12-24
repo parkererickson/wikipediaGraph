@@ -96,7 +96,6 @@ tasks {
     val loadArticles by registering(GsqlTask::class){
         group = grpLoad
         description = "Runs the loading job loadArticles"
-        //dependsOn("createLoadArticles")
         scriptPath = "loadArticles.gsql"
         superUser = true
     }
@@ -109,7 +108,6 @@ tasks {
     val loadKeywords by registering(GsqlTask::class){
         group = grpLoad
         description = "Runs the loading job loadArticles"
-        dependsOn("createLoadKeywords")
         scriptPath = "loadKeywords.gsql"
         superUser = true
     }
@@ -117,8 +115,12 @@ tasks {
         group = grpLoad
         description = "Creates schema, loads data, and installs all queries"
         dependsOn("createSchema")
+        dependsOn("createLoadArticles")
+        dependsOn("createLoadKeywords")
         dependsOn("loadArticles")
         dependsOn("loadKeywords")
-        dependsOn("")
+        dependsOn("installArticleTuple")
+        dependsOn("installGetKeywords")
+        dependsOn("installGetArticles")
     }
 }
