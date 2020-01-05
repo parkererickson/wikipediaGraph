@@ -111,6 +111,18 @@ tasks {
         scriptPath = "loadKeywords.gsql"
         superUser = true
     }
+    val createAllEdgeTuples by registering(GsqlTask::class){
+        group = grpQueries
+        description = "Creates the allEdgeTuples query"
+        scriptPath = "allEdgeTuples.gsql"
+        superUser = true
+    }
+    val installAllEdgeTuples by registering(GsqlTask::class){
+        group = grpQueries
+        description = "Installs the allEdgeTuples query"
+        scriptPath = "installAllEdgeTuples.gsql"
+        superUser = true
+    }
     val createEverything by registering(GsqlTask::class){
         group = grpLoad
         description = "Creates schema, loads data, and installs all queries"
