@@ -8,3 +8,4 @@ py_scripts/__pycache__/
 build/
 py_scripts/cfg.py
 doc2vec.model*
+questions/
