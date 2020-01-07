@@ -4,22 +4,35 @@ import numpy as np
 import re
 from sklearn.feature_extraction.text import CountVectorizer
 
-files = []
-import os
-for file in os.listdir("./"):
-    if file.endswith(".txt"):
-        files.append(file)
-titles = []
-texts = []
-for fl in files:
-    filename =fl 
-    f=open(filename, "r")
-    texts.append(f.read())
-    f.close()
-    title = filename[:-4]
-    titles.append(title)
-data = {"title":titles, "text":texts}
-df_idf = pd.DataFrame.from_dict(data)
+textFiles = False
+
+if textFiles == True:
+    files = []
+    import os
+    for file in os.listdir("../questions/question_data/wiki"):
+        if file.endswith(".txt"):
+            files.append(file)
+    titles = []
+    texts = []
+    for fl in files:
+        filename ="../questions/question_data/wiki/"+fl 
+        f=open(filename, "r")
+        texts.append(f.read())
+        f.close()
+        title = filename[:-4].replace("../questions/question_data/wiki/", "")
+        titles.append(title)
+    data = {"title":titles, "text":texts}
+    df_idf = pd.DataFrame.from_dict(data)
+else:
+    df = pd.read_csv("../questions/question_data/questions.csv")
+    print(df.head())
+    titles = []
+    texts = []
+    for index, row in df.iterrows():
+        titles.append(row["Answer"])
+        texts.append(row["Text"])
+    data = {"title":titles, "text":texts}
+    df_idf = pd.DataFrame.from_dict(data)
 
 def pre_process(text):
     
@@ -118,4 +131,4 @@ for index_label, row_series in df_idf.iterrows():
 data = {"title":titles, "keywords":allKeywords, "keywordWeights":keywordweights}
 df = pd.DataFrame.from_dict(data)    
 
-df.to_csv("keywords.csv", sep=",", index=False,  encoding='utf-8')
+df.to_csv("../questions/question_data/questionKeywords.csv", sep=",", index=False,  encoding='utf-8')
