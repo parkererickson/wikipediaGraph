@@ -29,7 +29,7 @@ else:
     titles = []
     texts = []
     for index, row in df.iterrows():
-        titles.append(row["Answer"])
+        titles.append(row["Question ID"])
         texts.append(row["Text"])
     data = {"title":titles, "text":texts}
     df_idf = pd.DataFrame.from_dict(data)

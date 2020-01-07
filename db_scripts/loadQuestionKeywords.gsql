@@ -1,0 +1,3 @@
+USE GRAPH @graphname@
+
+RUN LOADING JOB load_job_articleKeywords USING MyDataSource="~/tigergraph/loadingData/questionKeywords.csv"

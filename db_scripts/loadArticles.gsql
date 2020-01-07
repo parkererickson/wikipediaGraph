@@ -1,3 +1,0 @@
-USE GRAPH @graphname@
-
-RUN LOADING JOB loadArticles USING f="~/tigergraph/loadingData/processedLinks.csv"

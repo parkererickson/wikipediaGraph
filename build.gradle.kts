@@ -87,28 +87,40 @@ tasks {
         scriptPath = "installGetKeywords.gsql"
         superUser = true
     }
-    val createLoadArticles by registering(GsqlTask::class){
+    val createLoadArticleKeywords by registering(GsqlTask::class){
         group = grpLoad
-        description = "Creates the loading job loadArticles"
-        scriptPath = "createLoadArticles.gsql"
+        description = "Creates the loading job loadArticleKeywords"
+        scriptPath = "createLoadArticleKeywords.gsql"
         superUser = true
     }
-    val loadArticles by registering(GsqlTask::class){
+    val loadArticleKeywords by registering(GsqlTask::class){
         group = grpLoad
-        description = "Runs the loading job loadArticles"
-        scriptPath = "loadArticles.gsql"
+        description = "Runs the loading job loadArticleKeywords"
+        scriptPath = "loadArticleKeywords.gsql"
         superUser = true
     }
-    val createLoadKeywords by registering(GsqlTask::class){
+    val createLoadQuestionKeywords by registering(GsqlTask::class){
         group = grpLoad
-        description = "Creates the loading job loadKeywords"
-        scriptPath = "createLoadKeywords.gsql"
+        description = "Creates the loading job loadQuestionKeywords"
+        scriptPath = "createLoadQuestionKeywords.gsql"
         superUser = true
     }
-    val loadKeywords by registering(GsqlTask::class){
+    val loadQuestionKeywords by registering(GsqlTask::class){
         group = grpLoad
-        description = "Runs the loading job loadArticles"
-        scriptPath = "loadKeywords.gsql"
+        description = "Runs the loading job loadQuestionKeywords"
+        scriptPath = "loadQuestionKeywords.gsql"
+        superUser = true
+    }
+       val createLoadQuestions by registering(GsqlTask::class){
+        group = grpLoad
+        description = "Creates the loading job loadQuestionKeywords"
+        scriptPath = "createLoadQuestions.gsql"
+        superUser = true
+    }
+    val loadQuestions by registering(GsqlTask::class){
+        group = grpLoad
+        description = "Runs the loading job loadQuestionKeywords"
+        scriptPath = "loadQuestions.gsql"
         superUser = true
     }
     val createAllEdgeTuples by registering(GsqlTask::class){
@@ -122,17 +134,5 @@ tasks {
         description = "Installs the allEdgeTuples query"
         scriptPath = "installAllEdgeTuples.gsql"
         superUser = true
-    }
-    val createEverything by registering(GsqlTask::class){
-        group = grpLoad
-        description = "Creates schema, loads data, and installs all queries"
-        dependsOn("createSchema")
-        dependsOn("createLoadArticles")
-        dependsOn("createLoadKeywords")
-        dependsOn("loadArticles")
-        dependsOn("loadKeywords")
-        dependsOn("installArticleTuple")
-        dependsOn("installGetKeywords")
-        dependsOn("installGetArticles")
     }
 }

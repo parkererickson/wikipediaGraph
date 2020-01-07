@@ -1,0 +1,10 @@
+USE GRAPH @graphname@
+
+CREATE LOADING JOB load_job_tabbedQuestions FOR GRAPH @graphname@ {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO VERTEX Question VALUES($0, $1, $4) USING SEPARATOR="\t", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO VERTEX Category VALUES($3) USING SEPARATOR="\t", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO VERTEX Answer VALUES($2) USING SEPARATOR="\t", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE QUESTION_IS_IN_CATEGORY VALUES($0, $3, _) USING SEPARATOR="\t", HEADER="true", EOL="\n";
+      LOAD MyDataSource TO EDGE ANSWERS VALUES($2, $0, _) USING SEPARATOR="\t", HEADER="true", EOL="\n";
+    }

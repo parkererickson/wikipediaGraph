@@ -1,0 +1,6 @@
+USE GRAPH @graphname@
+
+CREATE LOADING JOB load_job_questionKeywords FOR GRAPH @graphname@ {
+      DEFINE FILENAME MyDataSource;
+      LOAD MyDataSource TO EDGE QUESTION_CONTAINS VALUES($0, $1, $2) USING SEPARATOR=",", HEADER="true", EOL="\n";
+    }
