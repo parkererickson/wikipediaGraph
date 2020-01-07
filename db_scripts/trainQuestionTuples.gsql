@@ -1,0 +1,20 @@
+USE GRAPH @graphname@
+
+CREATE QUERY trainQuestionTuples(/* Parameters here */) FOR GRAPH @graphname@ { 
+
+  TYPEDEF TUPLE <STRING src, STRING srcType, STRING relation, STRING dest, STRING destType> TUPLE_RECORD;
+  ListAccum<TUPLE_RECORD> @@tupleRecords;
+
+  Q = {Question.*};
+
+  # Note that the tuple gathers info from both edges and vertices.
+  S1 =  SELECT t
+        FROM Q:s -(QUESTION_IS_IN_CATEGORY:e)->:t WHERE s.fold=="train"
+        ACCUM @@tupleRecords += TUPLE_RECORD(s.questionID, s.type, e.type, t.categoryName, t.type);
+	S2 =  SELECT t 
+	      FROM Q:s -(QUESTION_CONTAINS:e)->:t WHERE s.fold=="train"
+	      ACCUM @@tupleRecords += TUPLE_RECORD(s.questionID, s.type, e.type, t.word, t.type);
+	
+  PRINT count(@@tupleRecords), @@tupleRecords As list_of_question_tuples;
+
+}

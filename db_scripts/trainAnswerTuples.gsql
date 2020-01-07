@@ -1,0 +1,18 @@
+USE GRAPH @graphname@
+
+CREATE QUERY trainAnswerTuples(/* Parameters here */) FOR GRAPH @graphname@ { 
+  TYPEDEF TUPLE <STRING src, STRING srcType, STRING relation, STRING dest, STRING destType> TUPLE_RECORD;
+  ListAccum<TUPLE_RECORD> @@tupleRecords;
+	
+	A = {Answer.*};
+	
+	S3 =  SELECT t
+        FROM A:s -(ANSWERS:e)->:t WHERE t.fold=="train"
+        ACCUM @@tupleRecords += TUPLE_RECORD(s.title, s.type, e.type, t.questionID, t.type);
+	S4 =  SELECT t 
+	      FROM A:s -(ANSWER_CONTAINS:e)->:t
+	      ACCUM @@tupleRecords += TUPLE_RECORD(s.title, s.type, e.type, t.word, t.type);
+
+  PRINT count(@@tupleRecords), @@tupleRecords As list_of_answer_tuples;
+	
+}

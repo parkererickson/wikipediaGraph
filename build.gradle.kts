@@ -48,43 +48,28 @@ tasks {
         scriptPath = "drop.gsql"
         superUser = true
     }
-    val createArticleTuple by registering(GsqlTask::class){
+    val createTrainAnswerTuples by registering(GsqlTask::class){
         group = grpQueries
-        description = "Creates the articleTuple query"
-        scriptPath = "getArticleTuples.gsql"
+        description = "Creates the trainAnswerTuples query"
+        scriptPath = "trainAnswerTuples.gsql"
         superUser = true
     }
-    val installArticleTuple by registering(GsqlTask::class){
+    val installTrainAnswerTuples by registering(GsqlTask::class){
         group = grpQueries
-        description = "Installs the articleTuple query"
-        dependsOn("createArticleTuple")
-        scriptPath = "installArticleTuple.gsql"
+        description = "Installs the trainAnswerTuples query"
+        scriptPath = "installTrainAnswerTuples.gsql"
         superUser = true
     }
-    val createGetArticles by registering(GsqlTask::class){
+    val createTrainQuestionTuples by registering(GsqlTask::class){
         group = grpQueries
-        description = "Creates the getArticles query"
-        scriptPath = "getArticles.gsql"
+        description = "Creates the trainQuestionTuples query"
+        scriptPath = "trainQuestionTuples.gsql"
         superUser = true
     }
-    val installGetArticles by registering(GsqlTask::class){
+    val installTrainQuestionTuples by registering(GsqlTask::class){
         group = grpQueries
-        description = "Installs the getArticles query"
-        dependsOn("createGetArticles")
-        scriptPath = "installGetArticles.gsql"
-        superUser = true
-    }
-    val createGetKeywords by registering(GsqlTask::class){
-        group = grpQueries
-        description = "Creates the getKeywords query"
-        scriptPath = "getKeywords.gsql"
-        superUser = true
-    }
-    val installGetKeywords by registering(GsqlTask::class){
-        group = grpQueries
-        description = "Installs the getKeywords query"
-        dependsOn("createGetKeywords")
-        scriptPath = "installGetKeywords.gsql"
+        description = "Installs the trainQuestionTuples query"
+        scriptPath = "installTrainQuestionTuples.gsql"
         superUser = true
     }
     val createLoadArticleKeywords by registering(GsqlTask::class){
@@ -111,7 +96,7 @@ tasks {
         scriptPath = "loadQuestionKeywords.gsql"
         superUser = true
     }
-       val createLoadQuestions by registering(GsqlTask::class){
+    val createLoadQuestions by registering(GsqlTask::class){
         group = grpLoad
         description = "Creates the loading job loadQuestionKeywords"
         scriptPath = "createLoadQuestions.gsql"
